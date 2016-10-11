@@ -1,0 +1,18 @@
+---
+
+
+- name: Create RDS instance
+  local_action:
+    module: rds
+    command: create
+    db_engine: postgres
+    db_name: trackerDB
+    instance_name: tracker
+    instance_type: db.t2.micro
+    license_model: postgresql-license
+    vpc_security_groups: sg-2fa82856
+    zone: us-west-2a
+    region: us-west-2
+    size: 5
+    username: trackeruser
+    password: "{{ db_password }}"

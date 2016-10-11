@@ -1,2 +1,19 @@
-django_home: /home/ubuntu/checkout
-rds_db_instance: uwpce
+user_home: /home/ubuntu
+django_home: "{{ user_home }}/checkout"
+rds_db_instance: tracker
+repo: "https://github.com/pattern-of-life/tracker.git"
+django_settings_module: "tracker.settings"
+secret_key: "secret"
+system_packages:
+  - build-essential
+  - python-dev
+  - python3-dev
+  - python-virtualenv
+  - python3.4-venv
+  - python-pip
+  - postgresql-client
+  - libpq-dev
+  - python3-psycopg2
+  - python-psycopg2
+  - git
+  - libjpeg8-dev
