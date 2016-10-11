@@ -1,5 +1,6 @@
 user_home: /home/ubuntu
 django_home: "{{ user_home }}/checkout"
+venv_home: "{{ user_home }}/venv"
 rds_db_instance: tracker
 repo: "https://github.com/pattern-of-life/tracker.git"
 django_settings_module: "tracker.settings"
