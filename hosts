@@ -1,4 +1,2 @@
-[all]
-localhost ansible_connection=local
-
-[launched]
+[local]
+localhost ansible_connection=local ansible_python_interpreter=/usr/local/bin/python

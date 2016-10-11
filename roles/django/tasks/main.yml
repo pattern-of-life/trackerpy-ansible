@@ -6,46 +6,50 @@
   with_items:
     - build-essential
     - python-dev
+    - python3-dev
+    - python-virtualenv
+    - python3.4-venv
     - python-pip
     - postgresql-client
     - libpq-dev
-    - python-pip
+    - python3-psycopg2
     - python-psycopg2
     - git
+    - libjpeg8-dev
 
-- name: Clone Django Repository
-  git: repo=https://github.com/cewing/djangoblog_uwpce.git dest={{ django_home }} force=yes
+# - name: Clone Django Repository
+#   git: repo=https://github.com/pattern-of-life/tracker.git dest={{ django_home }} force=yes
 
-- name: Install Python Dependencies
-  sudo: yes
-  pip:
-    state: present
-    requirements: "{{ django_home }}/requirements.txt"
+# - name: Install Python Dependencies
+#   sudo: yes
+#   pip:
+#     state: present
+#     requirements: "{{ django_home }}/requirements.txt"
 
-- name: Get DB Hostvars
-  set_fact:
-    db_host: "{{ hostvars[groups[rds_db_instance][0]] }}"
+# - name: Get DB Hostvars
+#   set_fact:
+#     db_host: "{{ hostvars[groups[rds_db_instance][0]] }}"
 
-- name: Get DB Password
-  include_vars: secrets.yml
+# - name: Get DB Password
+#   include_vars: secrets.yml
 
 
-- name: Set DB URL
-  set_fact: 
-    db_url: "{{ db_host.ec2_engine }}://{{ db_host.ec2_master_username }}:{{ db_password }}@{{ db_host.ec2__address }}:{{ db_host.ec2__port }}/{{ db_host.ec2_DBName }}"
+# - name: Set DB URL
+#   set_fact:
+#     db_url: "{{ db_host.ec2_engine }}://{{ db_host.ec2_master_username }}:{{ db_password }}@{{ db_host.ec2__address }}:{{ db_host.ec2__port }}/{{ db_host.ec2_DBName }}"
 
-- name: Run Migrations
-  environment:
-    DATABASE_URL: "{{ db_url }}"
-  django_manage:
-    app_path: "{{ django_home }}"
-    settings: mysite.production
-    command: migrate
+# - name: Run Migrations
+#   environment:
+#     DATABASE_URL: "{{ db_url }}"
+#   django_manage:
+#     app_path: "{{ django_home }}"
+#     settings: mysite.production
+#     command: migrate
 
-- name: Collect Static Files
-  environment:
-    DATABASE_URL: "{{ db_url }}"
-  django_manage:
-    app_path: "{{ django_home }}"
-    settings: mysite.production
-    command: collectstatic
+# - name: Collect Static Files
+#   environment:
+#     DATABASE_URL: "{{ db_url }}"
+#   django_manage:
+#     app_path: "{{ django_home }}"
+#     settings: mysite.production
+#     command: collectstatic

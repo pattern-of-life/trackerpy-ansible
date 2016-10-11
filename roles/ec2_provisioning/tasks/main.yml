@@ -31,33 +31,33 @@
     count: "{{ count }}"
   register: ec2
 
-- name: Wait for SSH to Come Up
-  when: count > 0
-  local_action:
-    module: wait_for
-    host: "{{ item.public_dns_name }}"
-    state: started
-    port: 22
-    delay: 60
-    timeout: 600
-  with_items: ec2.instances
+# - name: Wait for SSH to Come Up
+#   when: count > 0
+#   local_action:
+#     module: wait_for
+#     host: "{{ item.public_dns_name }}"
+#     state: started
+#     port: 22
+#     delay: 60
+#     timeout: 600
+#   with_items: ec2.instances
 
-- name: Gather All EC2 Instances
+# - name: Gather All EC2 Instances
 
-  local_action:
-    module: ec2_lookup
-    region: "{{ region }}"
-    tags: "{{ instance_tags }}"
-  register: ec2_post_launch
+#   local_action:
+#     module: ec2_lookup
+#     region: "{{ region }}"
+#     tags: "{{ instance_tags }}"
+#   register: ec2_post_launch
 
-- name: Add new instance to host group
-  local_action:
-    module: add_host
-    hostname: "{{ item.public_dns_name }}"
-    groupname: launched
-  with_items: ec2_post_launch.instances
+# - name: Add new instance to host group
+#   local_action:
+#     module: add_host
+#     hostname: "{{ item.public_dns_name }}"
+#     groupname: launched
+#   with_items: ec2_post_launch.instances
 
-- name: debug
-  debug: var=tag_Name_ansible-built
+# - name: debug
+#   debug: var=tag_Name_ansible-built
 
 
