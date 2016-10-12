@@ -18,3 +18,5 @@ system_packages:
   - python-psycopg2
   - git
   - libjpeg8-dev
+
+repo_version: development

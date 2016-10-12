@@ -1,16 +1,15 @@
 ---
 
 - name: Install Requirements
-  sudo: yes
   pip:
     name: gunicorn
     virtualenv: "{{ venv_home }}"
     state: present
 
-- name: Create gunicorn Upstart Job
-  sudo: yes
-  template: src=tracker.conf.j2 dest=/etc/init/tracker.conf
-
-- name: Start gunicorn Upstart Job
-  sudo: yes
-  service: name=tracker state=restarted
+# - name: Create gunicorn Upstart Job
+#   sudo: yes
+#   template: src=tracker.conf.j2 dest=/etc/init/tracker.conf
+#
+# - name: Start gunicorn Upstart Job
+#   sudo: yes
+#   service: name=tracker state=restarted

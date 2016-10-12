@@ -11,4 +11,10 @@ env DEBUG=False
 env SECRET_KEY={{ secret_key }}
 env DJANGO_SETTINGS_MODULE={{ django_settings_module }}
 env DATABASE_URL={{ db_url }}
-exec gunicorn -b 127.0.0.1:8000 -w 4 mysite.wsgi --error-logfile /tmp/gunicorn-error.log
+env EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+env EMAIL_HOST='smtp.gmail.com'
+env EMAIL_HOST_USER={{ gmail }}
+env DEFAULT_FROM_EMAIL={{ gmail }}
+env EMAIL_HOST_PASSWORD={{ email_host_password }}
+env ALLOWED_HOSTS=[{{ ec2_public_dns_name }}, "localhost"]
+exec {{venv_home }}/bin/gunicorn -b 127.0.0.1:8000 -w 4 tracker.wsgi --error-logfile /tmp/gunicorn-error.log

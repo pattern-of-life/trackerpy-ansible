@@ -6,7 +6,7 @@
   with_items: "{{ system_packages }}"
 
 - name: Clone Django Repository
-  git: repo={{ repo }} dest={{ django_home }} force=yes
+  git: repo={{ repo }} dest={{ django_home }} force=yes version={{ repo_version }}
 
 - name: Install Python Dependencies
   sudo: yes
@@ -25,16 +25,20 @@
 
 # - name: Run Migrations
 #   environment:
+#     DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
+#     SECRET_KEY: "{{ secret_key }}"
 #     DATABASE_URL: "{{ db_url }}"
 #   django_manage:
 #     app_path: "{{ django_home }}"
-#     settings: mysite.production
 #     command: migrate
-#
+#     virtualenv: "{{ venv_home }}"
+
 # - name: Collect Static Files
 #   environment:
+#     DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
+#     SECRET_KEY: "{{ secret_key }}"
 #     DATABASE_URL: "{{ db_url }}"
 #   django_manage:
 #     app_path: "{{ django_home }}"
-#     settings: mysite.production
 #     command: collectstatic
+#     virtualenv: "{{ venv_home }}"

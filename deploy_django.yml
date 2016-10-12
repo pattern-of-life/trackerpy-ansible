@@ -5,10 +5,10 @@
   remote_user: ubuntu
   gather_facts: yes
   vars:
-    rds_db_instance: tracker 
+    rds_db_instance: tracker
   roles:
     - role: django
-    # - role: gunicorn
+    - role: gunicorn
     # - role: jdauphant.nginx
     #   sudo: yes
     #   nginx_sites:
