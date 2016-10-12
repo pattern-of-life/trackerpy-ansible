@@ -1,0 +1,4 @@
+---
+
+db_password: "{{ vault_db_password }}"
+gmail: 'trackerpy2016@gmail.com'
