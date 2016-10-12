@@ -1,6 +1,6 @@
 ---
 
 - name: Deploy Django Site
-  hosts: local
+  hosts: localhost
   roles:
     - ec2_provisioning

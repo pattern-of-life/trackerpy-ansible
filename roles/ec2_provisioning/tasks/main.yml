@@ -8,11 +8,10 @@
   register: ec2_pre_launch
 
 - name: calculate number of instances to provision
-  set_fact: 
+  set_fact:
     count: "{{ num_instances - ec2_pre_launch.instances|length }}"
 
 - name: Launch EC2 Instance
-  when: count > 0
   local_action:
     module: ec2
     keypair: "{{ keypair }}"
@@ -28,7 +27,6 @@
       - device_name: /dev/sda1
         volume_size: "{{ root_ebs_size }}"
     zone: "{{ zone }}"
-    count: "{{ count }}"
   register: ec2
 
 - name: Wait for SSH to Come Up
@@ -59,5 +57,3 @@
 
 - name: debug
   debug: var=tag_Name_ansible-built
-
-
