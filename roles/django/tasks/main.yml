@@ -21,23 +21,31 @@
 
 - name: Set DB URL
   set_fact:
-    db_url: "{{ db_host.ec2_engine }}://{{ db_host.ec2_master_username }}:{{ db_password }}@{{ db_host.ec2__address }}:{{ db_host.ec2__port }}/{{ db_host.ec2_DBName }}"
+    db_user: trackeruser
+    db_host: tracker.czbuozoh6fbd.us-west-2.rds.amazonaws.com
+    db_port: 5432
 
-# - name: Run Migrations
-#   environment:
-#     DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
-#     SECRET_KEY: "{{ secret_key }}"
-#     DATABASE_URL: "{{ db_url }}"
-#   django_manage:
-#     app_path: "{{ django_home }}"
-#     command: migrate
-#     virtualenv: "{{ venv_home }}"
+- name: Run Migrations
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
+    SECRET_KEY: "{{ secret_key }}"
+    DB_USER: "{{ db_user }}"
+    DB_PASSWORD: "{{ db_password }}"
+    DB_HOST: "{{ db_host }}"
+    DB_PORT: "{{ db_port }}"
+  django_manage:
+    app_path: "{{ django_home }}"
+    command: migrate
+    virtualenv: "{{ venv_home }}"
 
 # - name: Collect Static Files
 #   environment:
 #     DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
 #     SECRET_KEY: "{{ secret_key }}"
-#     DATABASE_URL: "{{ db_url }}"
+#     DB_USER: "{{ db_user }}"
+#     DB_PASSWORD: "{{ db_password }}"
+#     DB_HOST: "{{ db_host }}"
+#     DB_PORT: "{{ db_port }}"
 #   django_manage:
 #     app_path: "{{ django_home }}"
 #     command: collectstatic
