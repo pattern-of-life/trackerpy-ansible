@@ -1,0 +1,52 @@
+---
+
+- name: Install System Packages
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
+  sudo: yes
+  with_items: "{{ system_packages }}"
+
+- name: Clone Django Repository
+  git: repo={{ repo }} dest={{ django_home }} force=yes version={{ repo_version }}
+
+- name: Install Python Dependencies
+  sudo: yes
+  pip:
+    virtualenv: "{{ venv_home }}"
+    state: present
+    requirements: "{{ django_home }}/requirements.pip"
+
+- name: Get DB Hostvars
+  set_fact:
+    db_host: "{{ hostvars[groups[rds_db_instance][0]] }}"
+
+- name: Set DB URL
+  set_fact:
+    db_user: trackeruser
+    db_host: tracker.czbuozoh6fbd.us-west-2.rds.amazonaws.com
+    db_port: 5432
+
+- name: Run Migrations
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
+    SECRET_KEY: "{{ secret_key }}"
+    DB_USER: "{{ db_user }}"
+    DB_PASSWORD: "{{ db_password }}"
+    DB_HOST: "{{ db_host }}"
+    DB_PORT: "{{ db_port }}"
+  django_manage:
+    app_path: "{{ django_home }}"
+    command: migrate
+    virtualenv: "{{ venv_home }}"
+
+- name: Collect Static Files
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
+    SECRET_KEY: "{{ secret_key }}"
+    DB_USER: "{{ db_user }}"
+    DB_PASSWORD: "{{ db_password }}"
+    DB_HOST: "{{ db_host }}"
+    DB_PORT: "{{ db_port }}"
+  django_manage:
+    app_path: "{{ django_home }}"
+    command: collectstatic
+    virtualenv: "{{ venv_home }}"

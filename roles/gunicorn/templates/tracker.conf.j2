@@ -1,0 +1,24 @@
+description "tracker"
+
+start on (filesystem)
+stop on runlevel [016]
+
+respawn
+setuid nobody
+setgid nogroup
+chdir {{ django_home }}
+env DEBUG=False
+env SECRET_KEY={{ secret_key }}
+env DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+env DB_USER={{ db_user }}
+env DB_PASSWORD={{ db_password }}
+env DB_HOST={{ db_host }}
+env DB_PORT={{ db_port }}
+env EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+env EMAIL_HOST='smtp.gmail.com'
+env EMAIL_HOST_USER={{ gmail }}
+env DEFAULT_FROM_EMAIL={{ gmail }}
+env EMAIL_HOST_PASSWORD={{ email_host_password }}
+env ALLOWED_HOSTS={{ ec2_public_dns_name }}
+env GOOGLE_MAPS_API_KEY=AIzaSyBOPZpnJ6nykbPC0nkTXqyrajJF7Z3XUK4
+exec {{venv_home }}/bin/gunicorn -b 127.0.0.1:8000 -w 4 tracker.wsgi --error-logfile /tmp/gunicorn-error.log
